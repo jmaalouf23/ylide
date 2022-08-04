@@ -6,6 +6,16 @@ Library/bases/
 Library/carboxylic_acids/
 Library/data_extraction/
 Library/pickled_data/
-Library/python_scripts/
+Library/python_scripts/MAP*
+Library/python_scripts/input_files/
+Library/python_scripts/input_files_y*
+Library/python_scripts/out_ylide*
+Library/python_scripts/output_folders/
+Library/python_scripts/failed*
+Library/python_scripts/dicts/
+Library/python_scripts/map_out_folders/
+Library/python_scripts/run*
+Library/python_scripts/make_inputs.ipynb
+Library/python_scripts/.ipynb_checkpoints*
 Library/sheets/
 Library/ipynbs/.ipynb_checkpoints/
