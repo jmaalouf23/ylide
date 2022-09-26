@@ -19,7 +19,7 @@ def calcE(G_ox,G_red,n=1):
 
 
 
-def calcDPFE(G_ylide_h,G_ylide,solvent='gas'):
+def calcDPFE(G_ylide_h,G_ylide,solvent='gas',functional='M062X',basis='Def2SVPD'):
     """ 
     Calculations the deprotonation Free Energy of a reaction, specifically going from ylide_h to ylide
 
@@ -34,17 +34,25 @@ def calcDPFE(G_ylide_h,G_ylide,solvent='gas'):
     
     #Dictionaory of H+ energies at the M062X 
     proton_dict={
-    'gas': -0.010000,
-    'acetonitrile': -0.223572
+        'M062X':{
+            'Def2TZVP':{
+            'acetonitrile': -0.223572
+            },
+
+            'Def2SVPD':{ 
+
+             'acetonitrile':  -0.223572
+            }
+        }
     }
     
-    possible_solvents=['gas','acetonitrile']
+    possible_solvents=[functional][basis]['gas','acetonitrile']
     assert solvent in possible_solvents, "VALID SOLVENT NOT SPECIFIED"
     
     return -(G_ylide_h-G_ylide-proton_dict[solvent])*2625.5    
 
 
-def calcGHBind(G_ylide_h,G_ylide_rad,solvent='gas'):
+def calcGHBind(G_ylide_h,G_ylide_rad,functional='M062X',basis='Def2SVPD',solvent='gas',energy_type ='h2'):
     """ 
     Calculations the Hydrogen atom Binding Energy of a reaction, specifically going from ylide_rad to ylide_h
 
@@ -58,10 +66,24 @@ def calcGHBind(G_ylide_h,G_ylide_rad,solvent='gas'):
     """ 
     
     #Dictionaory of H atom energies at the M062X 
-    Hatom_dict={
-    'gas': -0.508484,
-    'acetonitrile': -0.508404
+    H_atom_energy_dict={
+        'M062X':{
+            'Def2TZVP':{
+            'acetonitrile': -0.406533
+            },
+
+            '6311++G**':{
+
+            'acetonitrile':  -0.508484
+            },
+
+            'Def2SVPD':{ 
+
+             'acetonitrile':  -0.507603
+            }
+        }
     }
+    
     
     H2_dict={
     'gas': -1.169741,
@@ -72,4 +94,8 @@ def calcGHBind(G_ylide_h,G_ylide_rad,solvent='gas'):
     
     assert solvent in possible_solvents, "VALID SOLVENT NOT SPECIFIED"
     
-    return (G_ylide_h-G_ylide_rad-H2_dict[solvent]/2)*2625.5
+    
+    if energy_type == 'h2':
+        return (G_ylide_h-G_ylide_rad-H2_dict[solvent]/2)*2625.5
+    elif: energy_type =='radical'
+        return (G_ylide_h-G_ylide_rad-H_atom_energy_dict[functional][basis][solvent])*2625.5
